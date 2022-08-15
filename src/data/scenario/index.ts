@@ -1,4 +1,5 @@
 import { find, flatMap, forEach, sortBy } from 'lodash';
+import jsonpack from 'jsonpack';
 
 import { GuideInput, NumberChoices, StandaloneId, Trauma } from '@actions/types';
 import { FullCampaign, Effect, Errata, Scenario, ChoiceIcon, ChaosToken, ChaosTokens, ScenarioChaosTokens, BorderColor, TabooSets } from './types';
@@ -191,49 +192,49 @@ function loadAll(lang: string): {
     case 'es':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs_es.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns_es.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns_es.json')),
         encounterSets: require('../../../assets/generated/encounterSets_es.json'),
         errata: require('../../../assets/generated/campaignErrata_es.json'),
       };
     case 'ru':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs_ru.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns_ru.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns_ru.json')),
         encounterSets: require('../../../assets/generated/encounterSets_ru.json'),
         errata: require('../../../assets/generated/campaignErrata_ru.json'),
       };
     case 'fr':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs_fr.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns_fr.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns_fr.json')),
         encounterSets: require('../../../assets/generated/encounterSets_fr.json'),
         errata: require('../../../assets/generated/campaignErrata_fr.json'),
       };
     case 'de':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs_de.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns_de.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns_de.json')),
         encounterSets: require('../../../assets/generated/encounterSets_de.json'),
         errata: require('../../../assets/generated/campaignErrata_de.json'),
       };
     case 'it':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs_it.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns_it.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns_it.json')),
         encounterSets: require('../../../assets/generated/encounterSets_it.json'),
         errata: require('../../../assets/generated/campaignErrata_it.json'),
       };
     case 'pt':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs_pt.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns_pt.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns_pt.json')),
         encounterSets: require('../../../assets/generated/encounterSets_pt.json'),
         errata: require('../../../assets/generated/campaignErrata_pt.json'),
       };
     case 'zh':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs_zh.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns_zh.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns_zh.json')),
         encounterSets: require('../../../assets/generated/encounterSets_zh.json'),
         errata: require('../../../assets/generated/campaignErrata_zh.json'),
       };
@@ -247,14 +248,14 @@ function loadAll(lang: string): {
     case 'ko':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs_ko.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns_ko.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns_ko.json')),
         encounterSets: require('../../../assets/generated/encounterSets_ko.json'),
         errata: require('../../../assets/generated/campaignErrata_ko.json'),
       };
     case 'vi':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs_vi.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns_vi.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns_vi.json')),
         encounterSets: require('../../../assets/generated/encounterSets_vi.json'),
         errata: require('../../../assets/generated/campaignErrata_vi.json'),
       };
@@ -262,7 +263,7 @@ function loadAll(lang: string): {
     case 'en':
       return {
         allLogEntries: require('../../../assets/generated/campaignLogs.json'),
-        allCampaigns: require('../../../assets/generated/allCampaigns.json'),
+        allCampaigns: jsonpack.unpack(require('../../../assets/generated/allCampaigns.json')),
         encounterSets: require('../../../assets/generated/encounterSets.json'),
         errata: require('../../../assets/generated/campaignErrata.json'),
       };
