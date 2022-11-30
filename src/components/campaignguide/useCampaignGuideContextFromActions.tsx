@@ -1,5 +1,6 @@
+import { useCallback, useContext, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { useCallback, useContext, useMemo } from 'react';
+import { Platform } from 'react-native';
 import { flatMap, forEach, concat, keys, uniq } from 'lodash';
 import deepEqual from 'deep-equal';
 import { ThunkDispatch } from 'redux-thunk';
@@ -33,6 +34,7 @@ import { AppState } from '@reducers';
 
 const EMPTY_SPENT_XP = {};
 type AsyncDispatch = ThunkDispatch<AppState, unknown, Action>;
+const VERBOSE = true;
 
 export default function useCampaignGuideContextFromActions(
   campaignId: CampaignId,
@@ -282,10 +284,13 @@ export default function useCampaignGuideContextFromActions(
       return;
     }
     if (campaign.guideVersion === -1) {
+      VERBOSE && console.log('Updating campaign guide');
       dispatch(updateCampaignGuideVersion(updateCampaignActions, campaignId, campaignGuide.campaignVersion()));
     }
+    console.log(`Checking for campaign changes for ${Platform.OS}`);
     // tslint:disable-next-line: strict-comparisons
     if (campaign.difficulty !== campaignLog.campaignData.difficulty) {
+      VERBOSE && console.log('Updating campaign difficulty');
       dispatch(updateCampaignDifficulty(updateCampaignActions, campaignId, campaignLog.campaignData.difficulty));
     }
     forEach(
@@ -306,6 +311,20 @@ export default function useCampaignGuideContextFromActions(
           !deepEqual(oldData.cardCounts || {}, newData.cardCounts || {}) ||
           !deepEqual(oldData.ignoreStoryAssets || [], newData.ignoreStoryAssets || []);
         if (hasChanges) {
+          VERBOSE && console.log(`Updating investigator data for (${Platform.OS}): ${investigator}`);
+          VERBOSE && console.log({
+            killed: (!!oldData.killed !== !!newData.killed),
+            insane: (!!oldData.insane !== !!newData.insane),
+            mental: (oldData.mental || 0) !== (newData.mental || 0),
+            physical: (oldData.physical || 0) !== (newData.physical || 0),
+            availableXp: (oldData.availableXp || 0) !== (newData.availableXp || 0),
+            addedCards: !deepEqual(oldData.addedCards || [], newData.addedCards || []),
+            removedCards: !deepEqual(oldData.removedCards || [], newData.removedCards || []),
+            storyAssets: !deepEqual(oldData.storyAssets || [], newData.storyAssets || []),
+            specialXp: !deepEqual(oldData.specialXp || {}, newData.specialXp || {}),
+            cardCounts: !deepEqual(oldData.cardCounts || {}, newData.cardCounts || {}),
+            ignoreStoryAssets: !deepEqual(oldData.ignoreStoryAssets || [], newData.ignoreStoryAssets || []),
+          });
           dispatch(updateCampaignInvestigatorData(userId, updateCampaignActions, campaignId, investigator, {
             killed: !!newData.killed,
             insane: !!newData.insane,
@@ -324,6 +343,7 @@ export default function useCampaignGuideContextFromActions(
     )
 
     if (!deepEqual(campaign.chaosBag, campaignLog.chaosBag)) {
+      VERBOSE && console.log(`Updating campaign chaos bag: ${Platform.OS}`);
       dispatch(updateCampaignChaosBag(updateCampaignActions.setChaosBag, campaignId, campaignLog.chaosBag));
     }
     const scenarioResults = flatMap(scenarios, scenario => {
@@ -339,6 +359,7 @@ export default function useCampaignGuideContextFromActions(
       };
     });
     if (!deepEqual(campaign.scenarioResults, scenarioResults)) {
+      VERBOSE && console.log(`Updating campaign scenario results: ${Platform.OS}`);
       dispatch(updateCampaignScenarioResults(updateCampaignActions, campaignId, scenarioResults));
     }
   }, [userId, campaign, campaignGuide, campaignId, dispatch, updateCampaignActions]);

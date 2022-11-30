@@ -1349,7 +1349,6 @@ export interface GuideUndoInputAction {
   now: Date;
 }
 
-
 export const GUIDE_UPDATE_ACHIEVEMENT = 'GUIDE_UPDATE_ACHIEVEMENT';
 export interface GuideUpdateAchievementAction {
   type: typeof GUIDE_UPDATE_ACHIEVEMENT;

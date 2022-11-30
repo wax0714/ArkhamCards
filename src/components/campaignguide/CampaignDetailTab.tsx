@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { InteractionManager, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { filter, findLast, find, keys, last } from 'lodash';
 import { t } from 'ttag';
@@ -56,7 +56,14 @@ export default function CampaignDetailTab({
   const { userId, arkhamDb } = useContext(ArkhamCardsAuthContext);
   const reLogin = useCallback(() => login(), [login]);
   const arkhamDbError = useArkhamDbError();
-  const { campaignId, campaign, campaignGuide, campaignState, campaignInvestigators } = useContext(CampaignGuideContext);
+  const { syncCampaignChanges, campaignId, campaign, campaignGuide, campaignState, campaignInvestigators } = useContext(CampaignGuideContext);
+  useEffect(() => {
+    if (processedCampaign) {
+      setTimeout(() => {
+        syncCampaignChanges(processedCampaign);
+      }, 50);
+    }
+  }, [processedCampaign]);
   const deckActions = useDeckActions();
   const deckUpgradeCompleted = useCallback(async(deck: Deck, xp: number, id: StepId) => {
     const [choices, , delayedDeckEdit] = campaignState.numberChoices(id.id, id.scenario);

@@ -212,31 +212,6 @@ export default function CampaignInvestigatorsComponent(props: Props) {
   const { syncCampaignChanges, campaign, campaignId, campaignGuide, campaignState, latestDecks, campaignInvestigators, spentXp } = useContext(CampaignGuideContext);
   const { typography } = useContext(StyleContext);
   const dispatch = useAppDispatch();
-
-  const appState = useAppState();
-  const syncCampaignData = useCallback(() => {
-    syncCampaignChanges(processedCampaign);
-  }, [syncCampaignChanges, processedCampaign]);
-  const syncCampaignDataRef = useRef<() => void>(syncCampaignData);
-
-  useEffect(() => {
-    syncCampaignDataRef.current = syncCampaignData;
-  }, [syncCampaignData]);
-
-  useEffect(() => {
-    if (appState === 'inactive' || appState === 'background') {
-      syncCampaignData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appState]);
-
-  useEffect(() => {
-    // Update the campaign on unmount.
-    return () => {
-      syncCampaignDataRef.current();
-    };
-  }, []);
-
   const showChooseDeckForInvestigator = useCallback((investigator: Card) => {
     campaignState.showChooseDeck(investigator);
   }, [campaignState]);

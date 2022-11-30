@@ -26,7 +26,10 @@ type ChooseDeckType = (
 
 type AddInvestigatorType = (campaignId: CampaignId, code: string, deckId?: DeckId) => Promise<void>;
 
-export default function useChooseDeck(createDeckActions: DeckActions, updateActions: UpdateCampaignActions): [
+export default function useChooseDeck(
+  createDeckActions: DeckActions,
+  updateActions: UpdateCampaignActions
+): [
   ChooseDeckType,
   AddInvestigatorType,
 ] {

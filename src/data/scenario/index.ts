@@ -51,6 +51,7 @@ export type ProcessedScenario = PlayedScenario | UnplayedScenario;
 export interface ProcessedCampaign {
   scenarios: ProcessedScenario[];
   campaignLog: GuidedCampaignLog;
+  latestInputTimestamp?: Date;
 }
 
 export interface LatestDecks {

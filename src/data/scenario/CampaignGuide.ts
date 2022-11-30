@@ -1,7 +1,7 @@
-import { find, findIndex, filter, flatMap, forEach, reverse, slice } from 'lodash';
+import { concat, find, findIndex, filter, flatMap, forEach, reverse, slice, max, maxBy } from 'lodash';
 import { ngettext, msgid, t } from 'ttag';
 
-import { GuideStartCustomSideScenarioInput } from '@actions/types';
+import { guideAchievementToId, GuideStartCustomSideScenarioInput } from '@actions/types';
 import { PlayedScenario, ProcessedCampaign, ProcessedScenario, ScenarioId } from '@data/scenario';
 import { createInvestigatorStatusStep, PLAY_SCENARIO_STEP_ID, PROCEED_STEP_ID, UPGRADE_DECKS_STEP_ID } from './fixedSteps';
 import GuidedCampaignLog from './GuidedCampaignLog';
@@ -291,9 +291,11 @@ export default class CampaignGuide {
           }
         }
       });
+      const stateUpdated = campaignState.state.lastUpdated();
       return [{
         scenarios,
         campaignLog,
+        latestInputTimestamp: stateUpdated,
       }, undefined];
     } catch (e) {
       console.log(e.message);

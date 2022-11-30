@@ -219,24 +219,36 @@ export class SingleCampaignRemote extends MiniCampaignRemote implements SingleCa
   }
 }
 
-function unpackGuideInput(input: Pick<Guide_Input, 'id' | 'step' | 'type' | 'scenario' | 'payload'>): GuideInput {
+function unpackGuideInput(input: Pick<Guide_Input, 'id' | 'step' | 'type' | 'scenario' | 'payload' | 'updated_at'>): GuideInput & { updatedAt?: Date } {
+  let updatedAt: Date | undefined = undefined;
+  if (input.updated_at) {
+    try {
+      updatedAt = new Date(Date.parse(input.updated_at));
+    } catch (e) {
+    }
+  }
   return {
     ...input.payload,
     step: input.step || null,
     scenario: input.scenario || null,
     type: input.type || null,
+    updatedAt,
   };
 }
 
 export class CampaignGuideStateRemote implements CampaignGuideStateT {
   private guide: FullCampaignGuideStateFragment;
-  private allInputs: GuideInput[];
+  private allInputs: (GuideInput & { updatedAt?: Date })[];
   private guideUpdatedAt: Date;
 
   constructor(guide: FullCampaignGuideStateFragment) {
     this.guide = guide;
-    this.guideUpdatedAt = new Date(Date.parse(guide.updated_at));
     this.allInputs = map(this.guide.guide_inputs, unpackGuideInput);
+    const latestGuideUpdate = maxBy(this.allInputs, i => i.updatedAt?.getTime() || 0)?.updatedAt;
+    this.guideUpdatedAt = new Date(Date.parse(guide.updated_at));
+    if (latestGuideUpdate && latestGuideUpdate.getTime() > this.guideUpdatedAt.getTime()) {
+      this.guideUpdatedAt = latestGuideUpdate;
+    }
   }
 
   undoInputs(scenarioId: string) {

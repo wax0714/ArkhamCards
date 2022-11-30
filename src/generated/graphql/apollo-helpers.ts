@@ -3112,7 +3112,7 @@ export type guide_achievement_variance_fieldsFieldPolicy = {
 	campaign_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type guide_inputKeySpecifier = ('campaign' | 'campaign_id' | 'created_at' | 'id' | 'inserted_idx' | 'payload' | 'scenario' | 'step' | 'type' | guide_inputKeySpecifier)[];
+export type guide_inputKeySpecifier = ('campaign' | 'campaign_id' | 'created_at' | 'id' | 'inserted_idx' | 'payload' | 'scenario' | 'step' | 'type' | 'updated_at' | guide_inputKeySpecifier)[];
 export type guide_inputFieldPolicy = {
 	campaign?: FieldPolicy<any> | FieldReadFunction<any>,
 	campaign_id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3122,7 +3122,8 @@ export type guide_inputFieldPolicy = {
 	payload?: FieldPolicy<any> | FieldReadFunction<any>,
 	scenario?: FieldPolicy<any> | FieldReadFunction<any>,
 	step?: FieldPolicy<any> | FieldReadFunction<any>,
-	type?: FieldPolicy<any> | FieldReadFunction<any>
+	type?: FieldPolicy<any> | FieldReadFunction<any>,
+	updated_at?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type guide_input_aggregateKeySpecifier = ('aggregate' | 'nodes' | guide_input_aggregateKeySpecifier)[];
 export type guide_input_aggregateFieldPolicy = {
@@ -3148,7 +3149,7 @@ export type guide_input_avg_fieldsFieldPolicy = {
 	campaign_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	inserted_idx?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type guide_input_max_fieldsKeySpecifier = ('campaign_id' | 'created_at' | 'id' | 'inserted_idx' | 'scenario' | 'step' | 'type' | guide_input_max_fieldsKeySpecifier)[];
+export type guide_input_max_fieldsKeySpecifier = ('campaign_id' | 'created_at' | 'id' | 'inserted_idx' | 'scenario' | 'step' | 'type' | 'updated_at' | guide_input_max_fieldsKeySpecifier)[];
 export type guide_input_max_fieldsFieldPolicy = {
 	campaign_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	created_at?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3156,9 +3157,10 @@ export type guide_input_max_fieldsFieldPolicy = {
 	inserted_idx?: FieldPolicy<any> | FieldReadFunction<any>,
 	scenario?: FieldPolicy<any> | FieldReadFunction<any>,
 	step?: FieldPolicy<any> | FieldReadFunction<any>,
-	type?: FieldPolicy<any> | FieldReadFunction<any>
+	type?: FieldPolicy<any> | FieldReadFunction<any>,
+	updated_at?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type guide_input_min_fieldsKeySpecifier = ('campaign_id' | 'created_at' | 'id' | 'inserted_idx' | 'scenario' | 'step' | 'type' | guide_input_min_fieldsKeySpecifier)[];
+export type guide_input_min_fieldsKeySpecifier = ('campaign_id' | 'created_at' | 'id' | 'inserted_idx' | 'scenario' | 'step' | 'type' | 'updated_at' | guide_input_min_fieldsKeySpecifier)[];
 export type guide_input_min_fieldsFieldPolicy = {
 	campaign_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	created_at?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3166,7 +3168,8 @@ export type guide_input_min_fieldsFieldPolicy = {
 	inserted_idx?: FieldPolicy<any> | FieldReadFunction<any>,
 	scenario?: FieldPolicy<any> | FieldReadFunction<any>,
 	step?: FieldPolicy<any> | FieldReadFunction<any>,
-	type?: FieldPolicy<any> | FieldReadFunction<any>
+	type?: FieldPolicy<any> | FieldReadFunction<any>,
+	updated_at?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type guide_input_mutation_responseKeySpecifier = ('affected_rows' | 'returning' | guide_input_mutation_responseKeySpecifier)[];
 export type guide_input_mutation_responseFieldPolicy = {

@@ -131,6 +131,7 @@ fragment GuideInput on guide_input {
   scenario
   type
   payload
+  updated_at
 }
 
 fragment GuideAchievement on guide_achievement {
