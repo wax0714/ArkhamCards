@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -16,3 +17,7 @@ public class ReactNativeFlipper {
         // Do nothing as we don't want to initialize Flipper on Release.
     }
 }
+=======
+package com.arkhamcards;public class ReactNativeFlipper {
+}
+>>>>>>> Stashed changes
