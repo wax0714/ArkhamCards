@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { DeviceEventEmitter, Platform } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { AppState, DeviceEventEmitter, Platform } from 'react-native';
 import { find } from 'lodash';
-import * as RNLocalize from 'react-native-localize';
 import { useSelector } from 'react-redux';
 
 import LanguageContext from './LanguageContext';
@@ -44,14 +43,22 @@ export function getArkhamDbDomain(lang: string): string {
 
 export default function LanguageProvider({ children }: Props) {
   const [systemLang, setSystemLang] = useState<string>(currentSystemLang || getSystemLanguage());
+  const appState = useRef(AppState.currentState);
   useEffect(() => {
     if (!eventListenerInitialized) {
-      // We only want to listen to this once, hence the singleton pattern.
-      const callback = () => {
-        currentSystemLang = getSystemLanguage();
-        DeviceEventEmitter.emit('langChange', currentSystemLang);
-      };
-      RNLocalize.addEventListener('change', callback);
+      AppState.addEventListener('change', nextAppState => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === 'active'
+        ) {
+          const newLang = getSystemLanguage();
+          if (currentSystemLang !== newLang) {
+            currentSystemLang = newLang;
+            DeviceEventEmitter.emit('langChange', currentSystemLang);
+          }
+        }
+        appState.current = nextAppState;
+      });
       eventListenerInitialized = true;
     }
     if (!currentSystemLang) {

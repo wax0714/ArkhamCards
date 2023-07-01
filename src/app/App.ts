@@ -1,10 +1,9 @@
 import Crashes from 'appcenter-crashes';
 import { forEach } from 'lodash';
 import { Navigation, Options } from 'react-native-navigation';
-import { Appearance, TouchableOpacity, Platform, Linking, LogBox, ColorSchemeName } from 'react-native';
+import { Appearance, TouchableOpacity, Platform, Linking, LogBox, ColorSchemeName, AppState as RnAppState } from 'react-native';
 import DeepLinking from 'react-native-deep-linking';
 import { Action, Store } from 'redux';
-import { addEventListener as addLangEventListener } from 'react-native-localize';
 import { t } from 'ttag';
 
 import { changeLocale } from './i18n';
@@ -13,6 +12,8 @@ import COLORS from '@styles/colors';
 import { getLangPreference, AppState, getThemeOverride, getStartingTab } from '@reducers';
 import { DARK_THEME, LIGHT_THEME } from '@styles/theme';
 import { BROWSE_CAMPAIGNS, BROWSE_CARDS, BROWSE_DECKS, BROWSE_SETTINGS, CHANGE_TAB, StartingTabType } from '@actions/types';
+import { findBestLanguageTag } from 'react-native-localize';
+import { getSystemLanguage } from '@lib/i18n';
 
 // @ts-ignore ts2339
 TouchableOpacity.defaultProps = {
@@ -26,14 +27,24 @@ export default class App {
   started: boolean;
   currentLang: string;
   currentThemeOverride?: 'light' | 'dark';
+  preferredLang: string;
 
   constructor(store: Store<AppState, Action<string>>) {
     this.started = false;
     this.currentLang = 'en';
     this.currentThemeOverride = undefined;
+    this.preferredLang = getSystemLanguage();
 
     store.subscribe(this.onStoreUpdate.bind(this, store));
-    addLangEventListener('change', () => this.onStoreUpdate(store));
+    RnAppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'active') {
+        const newLang = getSystemLanguage();
+        if (newLang !== this.preferredLang) {
+          this.preferredLang = newLang;
+          this.onStoreUpdate(store);
+        }
+      }
+    });
     Navigation.events().registerBottomTabSelectedListener((event) => {
       store.dispatch({
         type: CHANGE_TAB,
